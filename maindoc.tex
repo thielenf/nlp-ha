@@ -13,7 +13,11 @@
 % wissdoc Optionen: draft, relaxed, pdf --> siehe wissdoc.cls
 % ------------------------------------------------------------------
 % Weitere packages: (Dokumentation dazu durch "latex <package>.dtx")
-\usepackage[numbers,sort&compress]{natbib}
+% \usepackage[numbers,sort&compress]{natbib}
+\usepackage{csquotes}
+\usepackage[backend=biber, style=apa]{biblatex}
+\addbibresource{maindoc.bib}
+
 % \usepackage{varioref}
 % \usepackage{verbatim}
 % \usepackage{float}    %z.B. \floatstyle{ruled}\restylefloat{figure}
@@ -114,13 +118,25 @@
 \phantomsection
 \addcontentsline{toc}{chapter}{\bibname}
 %%
-\nocite{*} % nur angeben, wenn auch nicht im Text zitierte Quellen 
+% \nocite{*} % nur angeben, wenn auch nicht im Text zitierte Quellen 
            % erscheinen sollen
-\bibliographystyle{itmabbrv} % mit abgekürzten Vornamen der Autoren
+% \bibliographystyle{itmabbrv} % mit abgekürzten Vornamen der Autoren
 %\bibliographystyle{gerplain} % abbrvnat unsrtnat
 % spezielle Zitierstile: Labels mit vier Buchstaben und Jahreszahl
 %\bibliographystyle{itmalpha}  % ausgeschriebene Vornamen der Autoren
-\bibliography{maindoc}
+% \bibliography{maindoc}
+
+% Redefine the plain page style to have an empty header
+\fancypagestyle{plain}{
+  \fancyhf{} % clear all header and footer fields
+  \fancyfoot[R]{\thepage} % Page number centered at the bottom
+  \renewcommand{\headrulewidth}{0.5pt} % no head rule
+  \renewcommand{\footrulewidth}{0pt} % no foot rule
+}
+
+% Use the plain page style for the bibliography
+\pagestyle{plain}
+\printbibliography % Print the bibliography
 
 %% ++++++++++++++++++++++++++++++++++++++++++
 %% Index

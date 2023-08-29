@@ -34,6 +34,9 @@
 
 \usepackage[T1]{url} % much like \verb allow line breaks for paths and URLs
 
+\usepackage{setspace} % Paket für die Zeilenabstandseinstellungen
+\onehalfspacing % 1,5-facher Zeilenabstand
+
 % Postscript Fonts
 % times, palatino, newcent, bookman, garamond, basker, 
 % lucid, lucidbrb, lucidbry (Kommerzielle Fonts von Y&Y)
@@ -48,6 +51,7 @@
 % \usepackage{shadow} % für schattierte Boxen etc.
 % \usepackage{tabularx} % automatische Spaltenbreite
 % \usepackage{supertab} % mehrseitige Tabellen
+\usepackage{lipsum} % for dummy text only
 %% ---------------- end of usepackages -------------
 
 %% Options
@@ -136,21 +140,19 @@
 %% Geaenderte Headings:
 %% Seitenzahl normal, Text in slanted und nicht in Grossbuchstaben
 %%
-\pagestyle{fancy}
-\renewcommand{\chaptermark}[1]{\markboth{\thechapter.\ #1}{}}
-\fancyhf{} % clear all header and footer fields
-\fancyhead[LE,RO]{{\headfont\thepage}} % left/right header for even/odd pages
-\fancyhead[LO]{\headfont\nouppercase{\rightmark}} % header for left side (odd)
-\fancyhead[RE]{\headfont\nouppercase{\leftmark}} % right header for even pages
-\renewcommand{\headrulewidth}{0.5pt} % head rule
-\renewcommand{\footrulewidth}{0pt} % no rule
 % plainstyle
 \fancypagestyle{plain}{%
-\fancyhf{} % clear all header and footer fields
-\renewcommand{\headrulewidth}{0pt}
-\renewcommand{\footrulewidth}{0pt}
-%\cfoot{\headfont\thepage}
+  \fancyhf{} % clear all header and footer fields
+  \fancyhead[L]{\headfont\nouppercase{\leftmark}} % header for left side (odd)
+  \fancyhead[R]{\headfont\nouppercase{\rightmark}} % right header for even pages
+  \fancyfoot[R]{\thepage} % Page number centered at the bottom
+  \renewcommand{\headrulewidth}{0.5pt} % head rule
+  \renewcommand{\footrulewidth}{0pt} % no rule
 }
+\pagestyle{plain}
+\renewcommand{\chaptermark}[1]{\markboth{\thechapter.\ #1}{}}
+\renewcommand{\sectionmark}[1]{\markright{#1}}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Linien für Bilder (benötigt float.sty)
