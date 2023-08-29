@@ -26,7 +26,7 @@
 \usepackage{makeidx}          % wir wollen auch einen Index
 \usepackage[a4paper]{geometry} % Seitenränder einstellen leichtgemacht
 \usepackage{fancyhdr}         % definiere einfache Headings (mindestens V 1.99c
-                              % notwendig)
+% notwendig)
 \usepackage{array}          % fuer aufwändigere Tabellen
 \usepackage{xcolor}	    % Farbunterstützung
 \usepackage{colortbl}       % farbige Tabellen (v. D. Carlisle)
@@ -87,33 +87,33 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \ifx\pdftexversion\@undefined % kein PDFTeX aktiv
 \else
-\@usepdftrue % switch automatically to PDF mode
+  \@usepdftrue % switch automatically to PDF mode
 \fi
 
 \if@usepdf
- \usepackage{ae}      % erzeuge lesbare Schriften (mit cmps-Fonts)
- \usepackage{color}   % für farbige Hyperlinks benötigt
- \usepackage[raiselinks=true,%
-             bookmarks=true,%
-             bookmarksopenlevel=1,%
-             bookmarksopen=true,%
-             bookmarksnumbered=true,%
-             hyperindex=true,% 
-             plainpages=false,% correct hyperlinks
-             pdfpagelabels=true,% view TeX pagenumber in PDF reader
-             pdfborder={0 0 0.5}]{hyperref} % erzeuge Hyperlinks z.B. für pdflatex
-%\usepackage[CJKbookmarks]{hyperref}
- \usepackage[pdftex]{thumbpdf}
- \pdfcompresslevel=9   % scheint zwar nichts zu bringen, aber was soll's
+  \usepackage{ae}      % erzeuge lesbare Schriften (mit cmps-Fonts)
+  \usepackage{color}   % für farbige Hyperlinks benötigt
+  \usepackage[raiselinks=true,%
+    bookmarks=true,%
+    bookmarksopenlevel=1,%
+    bookmarksopen=true,%
+    bookmarksnumbered=true,%
+    hyperindex=true,% 
+    plainpages=false,% correct hyperlinks
+    pdfpagelabels=true,% view TeX pagenumber in PDF reader
+    pdfborder={0 0 0.5}]{hyperref} % erzeuge Hyperlinks z.B. für pdflatex
+  %\usepackage[CJKbookmarks]{hyperref}
+  \usepackage[pdftex]{thumbpdf}
+  \pdfcompresslevel=9   % scheint zwar nichts zu bringen, aber was soll's
 \else
   \usepackage{nohyperref}
 \fi
 
 \newif\if@usehyperref
 \ifx\href\@undefined % Wenn kein hyperref Paket geladen
-\@usehyperreffalse % hyperref used
+  \@usehyperreffalse % hyperref used
 \else
-\@usehyperreftrue % hyperref used
+  \@usehyperreftrue % hyperref used
 \fi
 
 
@@ -185,36 +185,36 @@
 \renewcommand{\chaptername}{}
 
 \renewcommand{\section}{%
-\@startsection{section}%
-{1}% Gliederungsebene
-{0mm}% Einzug
-{1.5ex plus 1ex minus 1.2ex}% Vorabstand
-{0.5ex plus 0.5ex minus 0.5ex}% Nachabstand
-{\chapterheadfont\Large\bfseries}% Stil
+  \@startsection{section}%
+  {1}% Gliederungsebene
+  {0mm}% Einzug
+  {1.5ex plus 1ex minus 1.2ex}% Vorabstand
+  {0.5ex plus 0.5ex minus 0.5ex}% Nachabstand
+  {\chapterheadfont\Large\bfseries}% Stil
 }
 \renewcommand{\subsection}{%
-\@startsection{subsection}%
-{2}%
-{0mm}%
-{1ex plus 1ex minus 1ex}%
-{0.3ex plus 0.3ex minus 0.3ex}%
-{\chapterheadfont\large\bfseries}%
+  \@startsection{subsection}%
+  {2}%
+  {0mm}%
+  {1ex plus 1ex minus 1ex}%
+  {0.3ex plus 0.3ex minus 0.3ex}%
+  {\chapterheadfont\large\bfseries}%
 }
 \renewcommand{\subsubsection}{%
-\@startsection{subsubsection}%
-{3}%
-{0mm}%
-{1ex plus 1ex minus 1ex}%
-{0.2ex plus 0.2ex minus 0.2ex}%
-{\chapterheadfont\normalsize\bfseries}%
+  \@startsection{subsubsection}%
+  {3}%
+  {0mm}%
+  {1ex plus 1ex minus 1ex}%
+  {0.2ex plus 0.2ex minus 0.2ex}%
+  {\chapterheadfont\normalsize\bfseries}%
 }
 \renewcommand{\paragraph}{%
-\@startsection{paragraph}%
-{4}%
-{0mm}%
-{2ex plus 1ex minus 2ex}%
-{0.2ex plus 0.2ex minus 0.2ex}%
-{\chapterheadfont\normalsize\bfseries}%
+  \@startsection{paragraph}%
+  {4}%
+  {0mm}%
+  {2ex plus 1ex minus 2ex}%
+  {0.2ex plus 0.2ex minus 0.2ex}%
+  {\chapterheadfont\normalsize\bfseries}%
 }
 
 
@@ -237,8 +237,8 @@
         \savebox{\chapno}{\chapterheadfont\huge\bfseries \thechapter.}
         \settowidth{\chapnolen}{\usebox{\chapno}}
         \parbox[t]{\chapnolen}{\usebox{\chapno}}\nobreak\leavevmode
-%        \par\nobreak
-%        \vskip 20\p@
+        %        \par\nobreak
+        %        \vskip 20\p@
       \fi
     \fi
     \interlinepenalty\@MM
@@ -281,15 +281,15 @@
 \def\@titlefoot{}
 
 \def\ps@title{%
-\headheight 15mm
-\footskip   0cm
-\addtolength{\textheight}{-15mm}
-\let\@mkboth\@gobbletwo%
+  \headheight 15mm
+  \footskip   0cm
+  \addtolength{\textheight}{-15mm}
+  \let\@mkboth\@gobbletwo%
   \def\@oddhead{\vbox{\hbox to\textwidth{\@titlehead}
-                \vskip 1.5mm
-                \hbox to\textwidth{\hrulefill}}}
+      \vskip 1.5mm
+      \hbox to\textwidth{\hrulefill}}}
   \def\@oddfoot{\vbox{\vskip -1mm\hbox to\textwidth{\hrulefill}\vskip 1mm
-                \hbox to\textwidth{\@titlefoot}}}
+      \hbox to\textwidth{\@titlefoot}}}
   \let\@evenhead\@oddhead
   \let\@evenfoot\@oddfoot
 }
@@ -299,23 +299,23 @@
   \let\oldheadheight\headheight
   \let\oldfootskip\footskip
   \let\oldtextheight\textheight
-  
-   \cleardoublepage
-   \if@twocolumn
-      \@restonecoltrue\onecolumn
-   \else
-      \@restonecolfalse\newpage
-    \fi
-    \thispagestyle{title}%
-    \setcounter{page}\@ne
+
+  \cleardoublepage
+  \if@twocolumn
+    \@restonecoltrue\onecolumn
+  \else
+    \@restonecolfalse\newpage
+  \fi
+  \thispagestyle{title}%
+  \setcounter{page}\@ne
 }%
 {\if@restonecol\twocolumn \else \newpage \fi
- \if@twoside\else
+  \if@twoside\else
     \setcounter{page}\@ne
- \fi
- \let\headheight\oldheadheight
- \let\textheight\oldtextheight
- \let\footskip\oldfootskip
+  \fi
+  \let\headheight\oldheadheight
+  \let\textheight\oldtextheight
+  \let\footskip\oldfootskip
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -328,24 +328,24 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \renewenvironment{theindex}
 {\if@twocolumn
-   \@restonecolfalse
- \else
-   \@restonecoltrue
- \fi
- \columnseprule \z@
- \columnsep 35\p@
- \twocolumn[\@makeschapterhead{\indexname}]%
- \@mkboth{\indexname}%
-         {\indexname}%
- \addcontentsline{toc}{chapter}{\indexname}%
- \thispagestyle{fancy}
- \flushbottom
- \parindent\z@
- \parskip\z@ \@plus .3\p@\relax
- \let\item\@idxitem
- \def\,{\relax\ifmmode\mskip\thinmuskip
-              \else\hskip0.2em\ignorespaces\fi}%
- \raggedright}
+    \@restonecolfalse
+  \else
+    \@restonecoltrue
+  \fi
+  \columnseprule \z@
+  \columnsep 35\p@
+  \twocolumn[\@makeschapterhead{\indexname}]%
+  \@mkboth{\indexname}%
+  {\indexname}%
+  \addcontentsline{toc}{chapter}{\indexname}%
+  \thispagestyle{fancy}
+  \flushbottom
+  \parindent\z@
+  \parskip\z@ \@plus .3\p@\relax
+  \let\item\@idxitem
+  \def\,{\relax\ifmmode\mskip\thinmuskip
+      \else\hskip0.2em\ignorespaces\fi}%
+  \raggedright}
 
 \newtheorem{definition}{Definition}[chapter]
 \newtheorem{satz}{Satz}[chapter]
