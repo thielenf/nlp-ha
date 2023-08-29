@@ -1,0 +1,51 @@
+%% titelseite.tex
+
+
+\def\usesf{}
+\let\usesf\sffamily % diese Zeile auskommentieren für normalen TeX Font
+
+\begin{titlepage}
+\setlength{\unitlength}{1pt}
+\begin{picture}(0,0)(85,770)
+%\includegraphics[width=\paperwidth]{logos/KIT_Deckblatt}
+\end{picture}
+
+\thispagestyle{empty}
+
+%\begin{titlepage}
+%%\let\footnotesize\small \let\footnoterule\relax
+\begin{center}
+\hbox{}
+\vfill
+{\usesf
+{\huge\bfseries Titel Titel Titel \par}
+\vskip 1.8cm
+{\huge Seminararbeit / Studienprojekt}\\
+\vskip 0.5cm
+Untertitel Untertitel Untertitel\ 
+\vskip 1.5cm
+
+{\large Universität Trier\\
+FB IV - Informatikwissenschaften\\
+Lehrstuhl für Wirtschaftsinformatik I\\}
+
+\vskip 3cm
+\begin{tabular}{p{3.5cm}l}
+Semester: & WiSe/SoSe 20XY \\
+Zusatzinfo1: & XYZ XYZ XYZ XYZ (ggf. Betreuer) \\
+Zusatzinfo2: & XYZ XYZ XYZ XYZ \\
+\end{tabular}
+\vskip 3cm
+Name(n) und Matrikelnummer(n):\\
+\vskip .5cm
+Vorname1 Nachname1, Matr.-Nr. 123456\\
+Vorname2 Nachname2, Matr.-Nr. 654321\\
+Vorname3 Nachname3, Matr.-Nr. 654123\\
+
+}
+\end{center}
+\vfill
+\end{titlepage}
+
+
+%%% End: 
