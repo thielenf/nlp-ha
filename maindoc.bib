@@ -1,16 +1,23 @@
-@inproceedings{rahimi-etal-2019-massively,
-  title     = {Massively Multilingual Transfer for {NER}},
-  author    = {Rahimi, Afshin  and
-               Li, Yuan  and
-               Cohn, Trevor},
-  booktitle = {Proceedings of the 57th Annual Meeting of the Association for Computational Linguistics},
+@inproceedings{wikiann,
+  title     = {Cross-lingual Name Tagging and Linking for 282 Languages},
+  author    = {Pan, Xiaoman  and
+               Zhang, Boliang  and
+               May, Jonathan  and
+               Nothman, Joel  and
+               Knight, Kevin  and
+               Ji, Heng},
+  booktitle = {Proceedings of the 55th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)},
   month     = jul,
-  year      = {2019},
-  address   = {Florence, Italy},
+  year      = {2017},
+  address   = {Vancouver, Canada},
   publisher = {Association for Computational Linguistics},
-  url       = {https://www.aclweb.org/anthology/P19-1015},
-  pages     = {151--164}
+  url       = {https://aclanthology.org/P17-1178},
+  doi       = {10.18653/v1/P17-1178},
+  pages     = {1946--1958},
+  abstract  = {The ambitious goal of this work is to develop a cross-lingual name tagging and linking framework for 282 languages that exist in Wikipedia. Given a document in any of these languages, our framework is able to identify name mentions, assign a coarse-grained or fine-grained type to each mention, and link it to an English Knowledge Base (KB) if it is linkable. We achieve this goal by performing a series of new KB mining methods: generating {``}silver-standard{''} annotations by transferring annotations from English to other languages through cross-lingual links and KB properties, refining annotations through self-training and topic selection, deriving language-specific morphology features from anchor links, and mining word translation pairs from cross-lingual links. Both name tagging and linking results for 282 languages are promising on Wikipedia data and on-Wikipedia data.}
 }
+
+
 @article{nner-survey,
   author     = {Wang, Yu and Tong, Hanghang and Zhu, Ziye and Li, Yun},
   title      = {Nested Named Entity Recognition: A Survey},
@@ -35,4 +42,78 @@
   author  = {Li, Xiaoya and Feng, Jingrong and Meng, Yuxian and Han, Qinghong and Wu, Fei and Li, Jiwei},
   journal = {arXiv preprint arXiv:1910.11476},
   year    = {2019}
+}
+@misc{devlin2019bert,
+  title         = {BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding},
+  author        = {Jacob Devlin and Ming-Wei Chang and Kenton Lee and Kristina Toutanova},
+  year          = {2019},
+  eprint        = {1810.04805},
+  archiveprefix = {arXiv},
+  primaryclass  = {cs.CL}
+}
+@inproceedings{germeval2014,
+  title     = {NoSta-D Named Entity Annotation for German: Guidelines and Dataset},
+  author    = {Benikova, Darina  and
+               Biemann, Chris  and
+               Reznicek, Marc},
+  booktitle = {Proceedings of the Ninth International Conference on Language Resources and Evaluation ({LREC}'14)},
+  month     = may,
+  year      = {2014},
+  address   = {Reykjavik, Iceland},
+  publisher = {European Language Resources Association (ELRA)},
+  url       = {http://www.lrec-conf.org/proceedings/lrec2014/pdf/276_Paper.pdf},
+  pages     = {2524--2531}
+}
+@inproceedings{gbert,
+  title     = {{G}erman{'}s Next Language Model},
+  author    = {Chan, Branden  and
+               Schweter, Stefan  and
+               M{\"o}ller, Timo},
+  booktitle = {Proceedings of the 28th International Conference on Computational Linguistics},
+  month     = dec,
+  year      = {2020},
+  address   = {Barcelona, Spain (Online)},
+  publisher = {International Committee on Computational Linguistics},
+  url       = {https://aclanthology.org/2020.coling-main.598},
+  doi       = {10.18653/v1/2020.coling-main.598},
+  pages     = {6788--6796},
+  abstract  = {In this work we present the experiments which lead to the creation of our BERT and ELECTRA based German language models, GBERT and GELECTRA. By varying the input training data, model size, and the presence of Whole Word Masking (WWM) we were able to attain SoTA performance across a set of document classification and named entity recognition (NER) tasks for both models of base and large size. We adopt an evaluation driven approach in training these models and our results indicate that both adding more data and utilizing WWM improve model performance. By benchmarking against existing German models, we show that these models are the best German models to date. All trained models will be made publicly available to the research community.}
+}
+@inproceedings{multinerd,
+  title     = {{M}ulti{NERD}: A Multilingual, Multi-Genre and Fine-Grained Dataset for Named Entity Recognition (and Disambiguation)},
+  author    = {Tedeschi, Simone  and
+               Navigli, Roberto},
+  booktitle = {Findings of the Association for Computational Linguistics: NAACL 2022},
+  month     = jul,
+  year      = {2022},
+  address   = {Seattle, United States},
+  publisher = {Association for Computational Linguistics},
+  url       = {https://aclanthology.org/2022.findings-naacl.60},
+  doi       = {10.18653/v1/2022.findings-naacl.60},
+  pages     = {801--812},
+  abstract  = {Named Entity Recognition (NER) is the task of identifying named entities in texts and classifying them through specific semantic categories, a process which is crucial for a wide range of NLP applications. Current datasets for NER focus mainly on coarse-grained entity types, tend to consider a single textual genre and to cover a narrow set of languages, thus limiting the general applicability of NER systems.In this work, we design a new methodology for automatically producing NER annotations, and address the aforementioned limitations by introducing a novel dataset that covers 10 languages, 15 NER categories and 2 textual genres.We also introduce a manually-annotated test set, and extensively evaluate the quality of our novel dataset on both this new test set and standard benchmarks for NER.In addition, in our dataset, we include: i) disambiguation information to enable the development of multilingual entity linking systems, and ii) image URLs to encourage the creation of multimodal systems.We release our dataset at https://github.com/Babelscape/multinerd.}
+}
+@inproceedings{europeana,
+  title     = {An Open Corpus for Named Entity Recognition in Historic Newspapers},
+  author    = {Neudecker, Clemens},
+  booktitle = {Proceedings of the Tenth International Conference on Language Resources and Evaluation ({LREC}'16)},
+  month     = may,
+  year      = {2016},
+  address   = {Portoro{\v{z}}, Slovenia},
+  publisher = {European Language Resources Association (ELRA)},
+  url       = {https://aclanthology.org/L16-1689},
+  pages     = {4348--4352},
+  abstract  = {The availability of openly available textual datasets ({``}corpora{''}) with highly accurate manual annotations ({``}gold standard{''}) of named entities (e.g. persons, locations, organizations, etc.) is crucial in the training and evaluation of named entity recognition systems. Currently there are only few such datasets available on the web, and even less for texts containing historical spelling variation. The production and subsequent release into the public domain of four such datasets with 100 pages each for the languages Dutch, French, German (including Austrian) as part of the Europeana Newspapers project is expected to contribute to the further development and improvement of named entity recognition systems with a focus on historical content. This paper describes how these datasets were produced, what challenges were encountered in their creation and informs about their final quality and availability.}
+}
+
+@misc{bert-base-german-cased,
+  title  = {bert-base-german-cased · Hugging Face},
+  author = {Branden Chan and
+            Malte Pietsch and
+            Timo Möller and
+            Tanay Soni},
+  year   = {2019},
+  month  = {jun},
+  day    = {14},
+  url    = {https://huggingface.co/bert-base-german-cased}
 }
