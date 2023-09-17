@@ -54,7 +54,7 @@ Die Wahl der Korpora wurde vorrangig durch Verfügbarkeit und Kompatibilität mi
 
 Mit Europeana Newspapers \parencite{europeana} wäre zwar ein weiteres Korpus verfügbar gewesen. Jedoch konnte dieses nicht verwendet werden, da hier keine Trennung der Sätze stattfindet. Der Versuch, mittels Anwendung eines Satztokenizers die Trennung automatisiert vorzunehmen, lieferte keine brauchbaren Ergebnisse. Der Hauptgrund dafür ist vermutlich, dass die Datenquelle dieses Korpus eine OCR-basierte Digitalisierung von Zeitungsartikeln ist, die keine ausreichende Qualität bietet. Dies wird von den Autoren ebenfalls als bestehendes Problem beklagt.
 
-\begin{table}[]
+\begin{table}[!htbp]
 	\centering
 	\caption{Verwendete deutsche Korpora}
 	\label{tab:korpora}
@@ -63,9 +63,10 @@ Mit Europeana Newspapers \parencite{europeana} wäre zwar ein weiteres Korpus ve
 		\textbf{Name}   & \textbf{Sätze} & \textbf{Tokens}       & \textbf{Nested} & \textbf{Entity-Klassen} \\ \midrule
 		GermEval2014    & 31,000         & \textgreater{}590,000 & Ja              & 4                       \\
 		WikiANN         & 40,000         & \textgreater{}390,000 & Nein            & 3                       \\
-		MultiNERD       & 156,800        & 2,700,000             & Nein            & 15                      \\ \bottomrule
+		MultiNERD\footnotemark       & 156,800        & 2,700,000             & Nein            & 15                      \\ \bottomrule
 		\end{tabular}
 \end{table}
+\footnotetext{Die hier gelistete Anzahl der Sätze und Tokens entspricht der Gesamtgröße des Korpus. Zur Verwendung in dieser Arbeit siehe \autoref{ch:Training}.}
 
 %% ==============================
 \section{Deutsches BERT-Modell}
@@ -73,3 +74,85 @@ Mit Europeana Newspapers \parencite{europeana} wäre zwar ein weiteres Korpus ve
 \label{ch:MRC:sec:DeutschBERT}
 
 Während frühere Arbeiten oft auf \verb|bert-german-base-cased| \parencite{bert-base-german-cased} basierten, fiel in dieser Arbeit die Entscheidung für das modernere \verb|gbert-base|, das von \cite{gbert} mit einer deutlich besseren Performance beworben wird.
+
+%% ==============================
+\chapter{Training}
+\label{ch:Training}
+%% ==============================
+
+%% ==============================
+\section{Debugging}
+%% ==============================
+\label{ch:Training:sec:Debugging}
+
+Im Repository der Autoren befinden sich Scripts, die eine Reproduktion der Ergebnisse aus \cite{li2019unified} ermöglichen sollen. Als Basis für die Anpassung an die deutschen Korpora wurde \verb|scripts/mrc_ner/reproduce/genia.sh| verwendet. Bevor eine angepasste Version dieses Scripts verwendet werden konnte, mussten jedoch zunächst diverse Versionskonflikte der installierten Python-Pakete behoben werden. Dieses Debugging war wie üblich ziemlich zeitaufwändig, da die produzierten Fehlermeldungen nicht immer einen offensichtlichen Hinweis auf das zugrundeliegende Problem lieferten. Die relevanten finalen Versionen der verwendeten Pakete sind in \autoref{lst:packages} aufgeführt. Überraschenderweise zeigen sich große Diskrepanzen zwischen den in dieser Weise ermittelten und den in \verb|requirements.txt| mitgelieferten erforderlichen Versionen.
+
+\begin{lstlisting}[caption={Liste der verwendeten Pakete}, language={Python}, label={lst:packages}]
+lightning-utilities==0.9.0
+numpy==1.23.5
+protobuf==3.20.0
+pytorch-lightning==0.9.0
+tokenizers==0.13.3
+torch==2.0.1
+torchmetrics==1.1.0
+tqdm==4.66.1
+transformers==4.32.0
+\end{lstlisting}
+
+Nachdem Konflikte in der Python-Installation bereinigt waren, wurden die in \autoref{ch:MRC:sec:Datenaufbereitung} erläuterten Probleme der Datenformate offenbart. Im Zuge dessen musste das Konversionsscript \verb|conll2json.py| entwickelt werden. Aus den so erhaltenen JSON-Daten wurde mit \verb|ner2mrc/genia2mrc.py| anschließend das benötigte MRC-Format generiert, das letztendlich die Eingabe für das Training darstellt.
+
+Ein weiterer Faktor, der in \autoref{ch:MRC} bereits angedeutet wurde, sind die erforderlichen Formulierungen der Fragen bzw. Queries, anhand derer das Modell Antworten finden soll. Während die einfachste Methode darin besteht, ein einzelnes Wort als Query zu verwenden, kann ebenfalls kurze Umschreibung oder gar eine voll ausformulierte Frage zur Entity-Klasse genutzt werden. Weitere Untersuchungen zu diesem Aspekt finden sich bei \cite[7]{li2019unified}.
+
+Ein erster Versuch, eine mitgelieferte Query-Definition der Autoren unverändert zu übernehmen, ließ das Training zwar erfolgreich abschließen. In der Evaluation wurde jedoch ein enttäuschender F1-Score von ca. \verb|0.51| erreicht. Dies ist auf mangelndes Verständnis des Frameworks zurückzuführen, da beim zweiten Blick offensichtlich wurde, dass die Queries auf Chinesisch formuliert waren.
+
+Ein weiteres Problem zeigte sich beim Versuch, das Modell für MultiNERD zu trainieren. Aufgrund der schieren Größe der Datenmenge (s. \autoref{tab:korpora}) war es nicht machbar, eine Konfiguration der Hyperparameter zu finden, die ein Training auf einer GPU in vertretbarer Zeit ermöglichte. Da die mitgelieferten Reproduktionsscripts ebenfalls Konfigurationen für ein Multi-GPU Setup enthielten, wurde zunächst versucht, diese entsprechend zu übernehmen. Es zeigten sich aber zu große Unterschiede zwischen den Serverarchitekturen der Autoren und dem mir zur Verfügung stehenden Server. Daher wurde der Versuch aufgegeben, das gesamte MultiNERD Korpus zu verwenden. Stattdessen wurde die Größe des Korpus auf \(\frac{1}{6}\) reduziert, was ein Training auf einer GPU ermöglichte.
+
+Alle finalen Trainings- und Evaluationsscripts können im Anhang eingesehen werden und heißen \verb|germeval_train.sh| bzw. \verb|germeval_eval.sh| und analog für die anderen Korpora.
+
+
+%% ==============================
+\section{Anpassung der Queries}
+%% ==============================
+\label{ch:Training:sec:Anpassung_Queries}
+
+
+Die Vorgehensweise in dieser Arbeit folgt aufgrund der Begrenztheit der verfügbaren Zeit und Ressourcen dem in \autoref{tab:queries} dargestellten Ansatz. Die Queries für MultiNERD und WikiANN wurden aus den Definitionen in \cite[4]{multinerd} ins Deutsche übersetzt. Da GermEval2014 der erste verwendete Datensatz für dieses Experiment war, wurden die Ein-Wort-Queries vorläufig nur als Platzhalter eingefügt, um erste plausible Ergebnisse zu erhalten. Da es aber für den Fortschritt des Experimentes wichtiger erschien, zunächst andere Korpora zu untersuchen, wurde auf ein erneutes Training für GermEval2014 mit angepassten Queries verzichtet. Diese Überzeugung wurde außerdem dadurch gefestigt, dass es sich bei der fortschreitenden Arbeit zeigte, dass die Länge der Queries erheblichen Einfluss auf den Ressourcenbedarf des Trainings hat: Das Training mit vollständigen Definitionen erfordert ca. 50\% mehr Zeit und VRAM als das Training mit Ein-Wort-Queries.
+
+\begin{table}[!htbp]
+	\centering
+	\caption{Art der Queries für die Korpora}
+	\label{tab:queries}
+	\begin{tabular}{@{}ll@{}}
+	\toprule
+		\textbf{Korpus} & \textbf{Query Defintionen} \\ \midrule
+		GermEval2014    & Ein-Wort-Query             \\
+		WikiANN         & Übersetzte Definitionen aus MultiNERD \\
+		MultiNERD       & Übersetzte Definitionen aus MultiNERD \\ \bottomrule
+	\end{tabular}
+\end{table}
+
+%% ==============================
+\chapter{Evaluation}
+\label{ch:Evaluation}
+%% ==============================
+
+%% ==============================
+\section{Übersicht der Trainingsergebnisse}
+%% ==============================
+\label{ch:Evaluation:sec:Übersicht_der_Trainingsergebnisse}
+
+Es folgen in \autoref{tab:dev_eval} die Ergebnisse der Evaluation gegen den Development-Split während des Trainings. Es zeigt sich ein klarer Vorsprung der Performance auf WikiANN.
+
+
+\begin{table}[!htbp]
+	\centering
+	\caption{Evaluation der Development-Splits}
+	\label{tab:dev_eval}
+	\begin{tabular}{@{}llll|l@{}}
+		\toprule
+		\textbf{Korpus} & \textbf{f1}     & \textbf{precision} & \textbf{recall} & \textbf{Trainingsdauer \ (in Min.)} \\ \midrule
+		GermEval2014    & 0.8111          & 0.8369             & 0.7867          & 200                               \\
+		WikiANN         & \textbf{0.8841} & \textbf{0.8994}    & \textbf{0.8692} & 223                               \\
+		MultiNERD       & 0.8578          & 0.8625             & 0.8532          & 644                               \\ \bottomrule
+	\end{tabular}
+\end{table}
