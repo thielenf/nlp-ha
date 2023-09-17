@@ -1,0 +1,36 @@
+---
+\begin{enumerate}
+    \item Überblick: \cite{nner-survey} => laut \cite[11]{nner-survey} beste Performance anscheinend mit \cite{li2019unified} - wie immer basierend auf BERT Architektur
+    \item \cite{li2019unified} zum Laufen kriegen:
+    \item Basismodel: gbert-base \parencite{gbert}
+    \item Datasets:
+    \begin{enumerate}
+        \item GermEval2014 \parencite{germeval2014} - nested
+        \item WikiANN \parencite{wikiann} (geringfügig angepasst: Tokenindizes) - flat
+        \item MultiNERD \parencite{multinerd} - flat
+        \item Nicht nutzbar: Europeana Newspapers \parencite{europeana}, da BIO Format keine Satzgrenzen enthält. Automatische Satztrennung mit nltk liefert keine brauchbaren Ergebnisse. Die OCR Qualität ist zu schlecht.
+    \end{enumerate}
+    \item \cite{li2019unified} verwenden ein eigenes MRC Format. Um dieses zu erhalten, gibt es Konversionsscripte (bspw. \texttt{genia2mrc.py}). Dieses verwenden aber eine JSON Datengrundlage, die unbekannt ist.
+    \item Deshalb ein eigenes Script geschrieben (\texttt{bio2json.py}), das die Daten in JSON konvertiert, um das Konversionsscript von \cite{li2019unified} verwenden zu können.
+    \item venv erstellen aus anaconda jupyter basis
+    \item Versionskonflikte beheben \& Scripts anpassen
+    \item \texttt{query.json} für Korpora anpassen
+    \begin{enumerate}
+        \item Defintion MultiNERD: \cite[4]{multinerd}
+        \item GermEval2014 selbst definitiert
+    \end{enumerate}
+    \item Training MultiNERD ca. 6 * 1:45h
+    \item Training GermEval2014 ca. 6 * 0:15h
+    \item Training WikiANN
+    \begin{enumerate}
+        \item Training mit Einwort-Query, ca 6 * 0.10h:
+        \item Training mit angepassten Queries aus MultiNERD, ca 6 * 0.15h:
+        \item Evaluation siehe \texttt{evaluation.txt}
+    \end{enumerate}
+    
+\end{enumerate}
+
+Dies ist ein Absatz, um zu testen, wie die Worttrennung in LaTeX mit den aktuellen
+Einstellungen funktioniert. Deshalb schreibe ich einfach ein bisschen Text, der
+hoffentlich lang genug ist, dass wir mittlerweile irgendwo eine Worttrennung
+haben. Danke und schöne Grüße.

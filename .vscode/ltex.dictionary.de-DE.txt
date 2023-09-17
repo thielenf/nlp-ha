@@ -1,0 +1,4 @@
+NER
+Eigennamenerkennung
+domänenabhängig
+NNER

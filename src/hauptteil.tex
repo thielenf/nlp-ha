@@ -1,144 +1,75 @@
 %% hauptteil.tex
 
 
-\chapter{Kapitel XYZ}
-\label{ch:XYZ}
+\chapter{A Unified MRC Framework for NER}
+\label{ch:MRC}
 %% ==============================
 
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod
-tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At
-vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren,
-no sea takimata sanctus est Lorem ipsum dolor sit amet.
 
 %% ==============================
-\section{Abschnitt 1}
+\section{Überblick}
 %% ==============================
-\label{ch:XYZ:sec:Abschnitt1}
+\label{ch:MRC:sec:Überblick}
 
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod
-tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At
-vero eos et accusam et justo duo dolores et ea rebum \cite{beethoven}. Stet
-clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod
-tempor invidunt ut labore \cite{sloman} et dolore magna aliquyam erat, sed diam
-voluptua. At vero eos et accusam et justo duo dolores \cite{stenz85:_about_time}
-et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum
-dolor sit amet.
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod
-tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At
-vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren,
-no sea takimata sanctus est Lorem ipsum dolor sit amet.
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod
-tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At
-vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren,
-no sea takimata sanctus est Lorem ipsum dolor sit amet.
+\cite{li2019unified} setzen ihren einheitlichen Ansatz um, indem sie die Aufgaben NER und NNER als Ausprägungen der Machine Reading Comprehension (MRC) interpretieren. Die Problemstellung der Extraktion von Personennamen wird also als eine Frage-Antwort-Aufgabe formuliert, bei der als Antwort auf die Frage \emph{"Welche Person wird im Text erwähnt?"} eine oder mehrere Strecken des Eingabetextes mittels Start- und Endeankern markiert werden, die die Antworten enthalten \parencite[1]{li2019unified}. Analog kann für beliebige weitere Klassen verfahren werden. Als Basis für die Implementierung wird das BERT-Modell \parencite{devlin2019bert} verwendet. Da BERT als Eingabe zwei durch den speziellen [SEP]-Token getrennte Textsequenzen akzeptiert, können Paare aus Frage und Suchtext verwendet werden.
 
 %% ==============================
-\section{Abschnitt 2}
+\section{Anwendung für NER und NNER}
 %% ==============================
-\label{ch:XYZ:sec:Abschnitt2}
+\label{ch:MRC:sec:AnwendungNERNNER}
 
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod
-tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At
-vero eos et accusam et justo duo dolores et ea rebum \cite{buch1}. Stet clita
-kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet
-\cite{JSAC96}.\\
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod
-tempor invidunt ut labore et dolore magna \cite{TB2000} aliquyam erat, sed diam
-voluptua.
-At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd
-gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+Um die Anwendung für (N)NER zu realisieren, werden zwei binäre Klassifikatoren auf den BERT Embeddings trainiert, die für jedes Token des Suchtextes entscheiden, ob es der Start bzw. das Ende einer Antwort im Sinne der formulierten Frage ist \parencite[4]{li2019unified}. Auf diese Weise lässt sich nicht nur einfache NER, sondern auch NNER, sowie die Erkennung möglicherweise überlappender Entitäten umsetzen. Um zuzuordnen, welche Paare aus Anfangs- und Endeanker zusammengehören, wird ein weiterer Klassifikator trainiert, der die dazugehörigen Wahrscheinlichkeiten vorhersagt.
 
-\subsection{Abschnitt 2.1}
-\label{ch:XYZ:sec:Abschnitt2:subsec:Abschnitt2-1}
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod
-tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At
-vero eos et accusam et justo duo dolores et ea rebum \cite{TB2000}. Stet clita
-kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod
-tempor invidunt ut labore et dolore magna \cite{stenz85:_about_time} aliquyam
-erat, sed diam voluptua.
-\begin{figure}[htb]
-\centering
-  	{\includegraphics[width=.3\textwidth]{Logo-Uni-Trier.jpg}}
-	\caption{Logo der Universitaet Trier.\label{fig:grafik1}}
-\centering
-\end{figure}
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod
-tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua
-\cite{mcdysan}.
+%% ==============================
+\section{Datenaufbereitung}
+%% ==============================
+\label{ch:MRC:sec:Datenaufbereitung}
 
-\subsection{Abschnitt 2.2}
-\label{ch:XYZ:sec:Abschnitt2:subsec:Abschnitt2-2}
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod
-tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At
-vero eos et accusam et justo duo dolores et ea rebum. Stet clita
-kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod
-tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.
-\begin{table}[htb]
-\caption{Tabelle mit Werten.\label{tab:liste}}
-\vspace*{1em}
-\centering
+Oft liegen Trainingsdaten für NER-Anwendungen im BIO-Format oder im CoNLL-Format vor. Für die Zwecke des MRC Frameworks entschieden sich die Autoren für ein Zwischenformat, das ein Tupel aus \textsc{(Frage, Antwort, Kontext)} abbildet \parencite[3]{li2019unified}. Aus diesem Zwischenformat haben die Autoren mittels eines Konversionsscripts die Eingabedaten für ihre angepassten BERT-Datasets erstellt.
 
-\bgroup
-\def\arraystretch{1.3}%  1 is the default, change whatever you need
+Bedauerlicherweise wird das besagte Zwischenformat zwar abstrakt beschrieben, die tatsächliche Implementierung jedoch nicht erklärt. So war es erforderlich, aus dem vorliegenden Quellcode die Funktionsweise zu rekonstruieren und ein zusätzliches Konversionsscript zu programmieren, das aus den deutschen Korpora das benötigte Format herstellt. Das so erzeugte Datenformat ist dargestellt in \autoref{lst:jsonexample}. Jeder Satz wird mittels der Schlüssel \verb|"context"| und \verb|"label"| codiert. Dabei enthält \verb|"context"| den Inhalt des vollständigen Satzes als Whitespace-Verkettung aller Tokens der Eingabedatei. \verb|"label"| enthält als Objekt alle vorhandenen Klassen der Named Entities als Schlüssel. Die Werte dieser Schlüssel sind Listen aus \verb|"<start>;<end>"| Strings, die den Indizes der entsprechenden Vorkommnisse innerhalb des \verb|"context"| entsprechen.
 
-\begin{tabular}[c]{l|l|c}
-	
-	\multicolumn{1}{c|}{\textbf{A}} & 
-	\multicolumn{1}{c|}{\textbf{B}} & 
-	\multicolumn{1}{c}{\textbf{C}} \\ 
-	
-	\hline
+\begin{lstlisting}[caption={Beispiel aus GermEval2014 für das erforderliche JSON-Format}, language={Python}, label={lst:jsonexample}]
+	{
+		"context": "Aber Borussia Dortmund darf niemals einem allein gehören .",
+		"label": {
+			"ORG": [
+				"1;2"
+			],
+			"LOC": [
+				"2;2"
+			]
+		}
+	}
+\end{lstlisting}
 
-	Test 1& Slow& 279 \\ 
-	&Fast & 499 \\ 
-	&Very fast& 719 \\ 
-	
-\end{tabular}
+Aus den vorhandenen Quelldateien war nicht ersichtlich, ob und wie dieses Format unter Berücksichtigung von NNER angepasst werden muss. Aus diesem Grund wurde die Annahme getroffen, dass eine Verschachtelung wie in \autoref{lst:jsonexample} über die naive Angabe der Indizes bereits ausreichend ist.
 
-\egroup
+%% ==============================
+\section{Deutsche Korpora}
+%% ==============================
+\label{ch:MRC:sec:Deutsche_Korpora}
 
+Die Wahl der Korpora wurde vorrangig durch Verfügbarkeit und Kompatibilität mit dem gegebenen Framework geleitet. Mindestens ein Korpus sollte jedoch NNER abbilden können, weshalb die Entscheidung für GermEval2014 \parencite{germeval2014} getroffen wurde. Mit MultiNERD \parencite{multinerd} wurde ein Korpus betrachtet, das besonders durch die Vielzahl an ausgezeichneten Entity-Klassen interessant ist. Zusätzlich wurde WikiANN \parencite{wikiann} betrachtet, jedoch hauptsächlich aus opportunistischen Gründen bezüglich Verfügbarkeit und Aufwand. Eine Übersicht der verwendeten Korpora ist in \autoref{tab:korpora} dargestellt.
+
+Mit Europeana Newspapers \parencite{europeana} wäre zwar ein weiteres Korpus verfügbar gewesen. Jedoch konnte dieses nicht verwendet werden, da hier keine Trennung der Sätze stattfindet. Der Versuch, mittels Anwendung eines Satztokenizers die Trennung automatisiert vorzunehmen, lieferte keine brauchbaren Ergebnisse. Der Hauptgrund dafür ist vermutlich, dass die Datenquelle dieses Korpus eine OCR-basierte Digitalisierung von Zeitungsartikeln ist, die keine ausreichende Qualität bietet. Dies wird von den Autoren ebenfalls als bestehendes Problem beklagt.
+
+\begin{table}[]
+	\centering
+	\caption{Verwendete deutsche Korpora}
+	\label{tab:korpora}
+	\begin{tabular}{@{}lllll@{}}
+		\toprule
+		\textbf{Name}   & \textbf{Sätze} & \textbf{Tokens}       & \textbf{Nested} & \textbf{Entity-Klassen} \\ \midrule
+		GermEval2014    & 31,000         & \textgreater{}590,000 & Ja              & 4                       \\
+		WikiANN         & 40,000         & \textgreater{}390,000 & Nein            & 3                       \\
+		MultiNERD       & 156,800        & 2,700,000             & Nein            & 15                      \\ \bottomrule
+		\end{tabular}
 \end{table}
-Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie
-consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan
-et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis
-dolore te feugait nulla facilisi \cite{ref2}.
-
-Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie
-consequat, vel illum dolore eu feugiat nulla facilisis.
-
-\subsection{Abschnitt 2.3}
-\label{ch:XYZ:sec:Abschnitt2:subsec:Abschnitt2-3}
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod
-tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At
-vero eos et accusam et justo duo dolores et ea rebum. Stet clita
-kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod
-tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod
-tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod
-tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.
 
 %% ==============================
-\section{Abschnitt 3}
+\section{Deutsches BERT-Modell}
 %% ==============================
-\label{ch:XYZ:sec:Abschnitt3}
+\label{ch:MRC:sec:DeutschBERT}
 
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod
-tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua
-\cite{ref3}. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita
-kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod
-tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At
-vero eos et accusam et justo duo dolores et ea rebum \cite{mcdysan}. Stet clita
-kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem
-ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
-invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos
-et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea
-takimata sanctus est Lorem ipsum dolor sit amet.
-
-
-%%% End: 
+Während frühere Arbeiten oft auf \verb|bert-german-base-cased| \parencite{bert-base-german-cased} basierten, fiel in dieser Arbeit die Entscheidung für das modernere \verb|gbert-base|, das von \cite{gbert} mit einer deutlich besseren Performance beworben wird.
