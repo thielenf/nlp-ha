@@ -141,18 +141,21 @@ Die Vorgehensweise in dieser Arbeit folgt aufgrund der Begrenztheit der verfügb
 %% ==============================
 \label{ch:Evaluation:sec:Übersicht_der_Trainingsergebnisse}
 
-Es folgen in \autoref{tab:dev_eval} die Ergebnisse der Evaluation gegen den Development-Split während des Trainings. Es zeigt sich ein klarer Vorsprung der Performance auf WikiANN.
-
+Es folgen in \autoref{tab:evaluation} die Ergebnisse der Evaluation des MRC-Frameworks. 
 
 \begin{table}[!htbp]
 	\centering
-	\caption{Evaluation der Development-Splits}
-	\label{tab:dev_eval}
-	\begin{tabular}{@{}llll|l@{}}
-		\toprule
-		\textbf{Korpus} & \textbf{f1}     & \textbf{precision} & \textbf{recall} & \textbf{Trainingsdauer \ (in Min.)} \\ \midrule
-		GermEval2014    & 0.8111          & 0.8369             & 0.7867          & 200                               \\
-		WikiANN         & \textbf{0.8841} & \textbf{0.8994}    & \textbf{0.8692} & 223                               \\
-		MultiNERD       & 0.8578          & 0.8625             & 0.8532          & 644                               \\ \bottomrule
-	\end{tabular}
+	\caption{Evaluation des MRC-Frameworks}
+	\label{tab:evaluation}
+	\resizebox{\columnwidth}{!}{
+		\begin{tabular}{@{}l|ccc|ccc|c@{}}
+		\specialrule{.1em}{0em}{0em}
+		\textbf{Korpus}       & \multicolumn{3}{c|}{\textbf{dev}}                       & \multicolumn{3}{c|}{\textbf{test}}                  & \textbf{Trainingsdauer}                         \\
+		\textbf{} & \textbf{f1}     & \textbf{precision} & \textbf{recall} & \textbf{f1} & \textbf{precision} & \textbf{recall} & \multicolumn{1}{c}{\textbf{(in Min.)}} \\
+		\specialrule{.05em}{0em}{0em}
+		GermEval2014    & 0.8255          & 0.8379             & 0.8136          & 0.8111          & 0.8369             & 0.7867          & 200                               \\
+		WikiANN         & 0.8578          & 0.8625             & 0.8532          & 0.8604          & 0.8545             & 0.8665          & 223                               \\
+		MultiNERD       & \textbf{0.8823} & \textbf{0.8986}    & \textbf{0.8665} & \textbf{0.8841} & \textbf{0.8994}    & \textbf{0.8692} & 644                               \\ \specialrule{.1em}{0em}{0em}
+		\end{tabular}
+	}
 \end{table}
