@@ -3,3 +3,7 @@ Eigennamenerkennung
 domänenabhängig
 NNER
 Hyperparameter
+Scores
+MultiNERD
+GermEval
+WikiANN
