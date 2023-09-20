@@ -101,7 +101,7 @@
 % \usepackage{shadow} % für schattierte Boxen etc.
 % \usepackage{tabularx} % automatische Spaltenbreite
 % \usepackage{supertab} % mehrseitige Tabellen
-\usepackage{lipsum} % for dummy text only
+\usepackage{pdfpages}
 %% ---------------- end of usepackages -------------
 
 %% Options
