@@ -11,21 +11,16 @@
 %% ==============================
 \label{ch:MRC:sec:Überblick}
 
-\cite{li2019unified} setzen ihren einheitlichen Ansatz um, indem sie die Aufgaben NER und NNER als Ausprägungen der Machine Reading Comprehension (MRC) interpretieren. Die Problemstellung der Extraktion von Personennamen wird also als eine Frage-Antwort-Aufgabe formuliert, bei der als Antwort auf die Frage \emph{"Welche Person wird im Text erwähnt?"} eine oder mehrere Strecken des Eingabetextes mittels Start- und Endeankern markiert werden, die die Antworten enthalten \parencite[1]{li2019unified}. Analog kann für beliebige weitere Klassen verfahren werden. Als Basis für die Implementierung wird das BERT-Modell \parencite{devlin2019bert} verwendet. Da BERT als Eingabe zwei durch den speziellen [SEP]-Token getrennte Textsequenzen akzeptiert, können Paare aus Frage und Suchtext verwendet werden.
+\cite{li2019unified} setzen ihren einheitlichen Ansatz um, indem sie die Aufgaben NER und NNER als Ausprägungen der Machine Reading Comprehension (MRC) interpretieren. Die Problemstellung der Extraktion von Personennamen wird also als eine Frage-Antwort-Aufgabe formuliert, bei der als Antwort auf die Frage \emph{"Welche Person wird im Text erwähnt?"} eine oder mehrere Strecken des Eingabetextes mittels Start- und Endeankern markiert werden, die die Antworten enthalten. Analog kann für beliebige weitere Klassen verfahren werden. Als Basis für die Implementierung wird das BERT-Modell \parencite{devlin2019bert} verwendet. Da BERT als Eingabe zwei durch den speziellen [SEP]-Token getrennte Textsequenzen akzeptiert, können Paare aus Frage und Suchtext verwendet werden.
 
-%% ==============================
-\section{Anwendung für NER und NNER}
-%% ==============================
-\label{ch:MRC:sec:AnwendungNERNNER}
-
-Um die Anwendung für (N)NER zu realisieren, werden zwei binäre Klassifikatoren auf den BERT Embeddings trainiert, die für jedes Token des Suchtextes entscheiden, ob es der Start bzw. das Ende einer Antwort im Sinne der formulierten Frage ist \parencite[4]{li2019unified}. Auf diese Weise lässt sich nicht nur einfache NER, sondern auch NNER, sowie die Erkennung möglicherweise überlappender Entitäten umsetzen. Um zuzuordnen, welche Paare aus Anfangs- und Endeanker zusammengehören, wird ein weiterer Klassifikator trainiert, der die dazugehörigen Wahrscheinlichkeiten vorhersagt.
+Um die gleichzeitige Anwendung für NER und NNER zu realisieren, werden zwei binäre Klassifikatoren auf den BERT Embeddings trainiert. Diese entscheiden für jedes Token des Suchtextes, ob es der Start bzw. das Ende einer Antwort im Sinne der formulierten Frage ist. Auf diese Weise lässt sich nicht nur einfache NER, sondern auch NNER, sowie die Erkennung möglicherweise überlappender Entitäten umsetzen. Um zuzuordnen, welche Paare aus Anfangs- und Endeanker zusammengehören, wird ein weiterer Klassifikator trainiert, der die dazugehörigen Wahrscheinlichkeiten vorhersagt.
 
 %% ==============================
 \section{Datenaufbereitung}
 %% ==============================
 \label{ch:MRC:sec:Datenaufbereitung}
 
-Oft liegen Trainingsdaten für NER-Anwendungen im BIO-Format oder im CoNLL-Format vor. Für die Zwecke des MRC Frameworks entschieden sich die Autoren für ein Zwischenformat, das ein Tupel aus \textsc{(Frage, Antwort, Kontext)} abbildet \parencite[3]{li2019unified}. Aus diesem Zwischenformat haben die Autoren mittels eines Konversionsscripts die Eingabedaten für ihre angepassten BERT-Datasets erstellt.
+Oft liegen Trainingsdaten für NER-Anwendungen im BIO-Format oder im CoNLL-Format vor. Für die Zwecke des MRC Frameworks entschieden sich \cite{li2019unified} für ein Zwischenformat, das ein Tupel aus \textsc{(Frage, Antwort, Kontext)} abbildet. Aus diesem Zwischenformat haben die Autoren mittels eines Konversionsscripts die Eingabedaten für ihre angepassten BERT-Datasets erstellt.
 
 Bedauerlicherweise wird das besagte Zwischenformat zwar abstrakt beschrieben, die tatsächliche Implementierung jedoch nicht erklärt. So war es erforderlich, aus dem vorliegenden Quellcode die Funktionsweise zu rekonstruieren und ein zusätzliches Konversionsscript zu programmieren, das aus den deutschen Korpora das benötigte Format herstellt. Das so erzeugte Datenformat ist dargestellt in \autoref{lst:jsonexample}. Jeder Satz wird mittels der Schlüssel \verb|"context"| und \verb|"label"| codiert. Dabei enthält \verb|"context"| den Inhalt des vollständigen Satzes als Whitespace-Verkettung aller Tokens der Eingabedatei. \verb|"label"| enthält als Objekt alle vorhandenen Klassen der Named Entities als Schlüssel. Die Werte dieser Schlüssel sind Listen aus \verb|"<start>;<end>"| Strings, die den Indizes der entsprechenden Vorkommnisse innerhalb des \verb|"context"| entsprechen.
 
@@ -46,13 +41,18 @@ Bedauerlicherweise wird das besagte Zwischenformat zwar abstrakt beschrieben, di
 Aus den vorhandenen Quelldateien war nicht ersichtlich, ob und wie dieses Format unter Berücksichtigung von NNER angepasst werden muss. Aus diesem Grund wurde die Annahme getroffen, dass eine Verschachtelung wie in \autoref{lst:jsonexample} über die naive Angabe der Indizes bereits ausreichend ist.
 
 %% ==============================
+\chapter{Training für deutsche Korpora}
+\label{ch:Training}
+%% ==============================
+
+%% ==============================
 \section{Deutsche Korpora}
 %% ==============================
-\label{ch:MRC:sec:Deutsche_Korpora}
+\label{ch:Training:sec:Deutsche_Korpora}
 
-Die Wahl der Korpora wurde vorrangig durch Verfügbarkeit und Kompatibilität mit dem gegebenen Framework geleitet. Mindestens ein Korpus sollte jedoch NNER abbilden können, weshalb die Entscheidung für GermEval2014 \parencite{germeval2014} getroffen wurde. Mit MultiNERD \parencite{multinerd} wurde ein Korpus betrachtet, das besonders durch die Vielzahl an ausgezeichneten Entity-Klassen interessant ist. Zusätzlich wurde WikiANN \parencite{wikiann} betrachtet, jedoch hauptsächlich aus opportunistischen Gründen bezüglich Verfügbarkeit und Aufwand. Eine Übersicht der verwendeten Korpora ist in \autoref{tab:korpora} dargestellt.
+Die Wahl der Korpora wurde vorrangig durch Verfügbarkeit und Kompatibilität mit dem gegebenen Framework geleitet. Mindestens ein Korpus sollte NNER abbilden können, weshalb die Entscheidung für GermEval2014 \parencite{germeval2014} getroffen wurde. Mit MultiNERD \parencite{multinerd} wurde ein Korpus betrachtet, das besonders durch die Vielzahl an ausgezeichneten Entityklassen interessant ist. Zusätzlich wurde WikiANN \parencite{wikiann} aufgenommen, allerdings hauptsächlich aus opportunistischen Gründen bezüglich Verfügbarkeit und Aufwand. Eine Übersicht der verwendeten Korpora ist in \autoref{tab:korpora} dargestellt.
 
-Mit Europeana Newspapers \parencite{europeana} wäre zwar ein weiteres Korpus verfügbar gewesen. Jedoch konnte dieses nicht verwendet werden, da hier keine Trennung der Sätze stattfindet. Der Versuch, mittels Anwendung eines Satztokenizers die Trennung automatisiert vorzunehmen, lieferte keine brauchbaren Ergebnisse. Der Hauptgrund dafür ist vermutlich, dass die Datenquelle dieses Korpus eine OCR-basierte Digitalisierung von Zeitungsartikeln ist, die keine ausreichende Qualität bietet. Dies wird von den Autoren ebenfalls als bestehendes Problem beklagt.
+Mit Europeana Newspapers \parencite{europeana} wurde ein weiteres Korpus in Betracht gezogen, jedoch konnte dieses nicht verwendet werden, da hier keine Trennung der Sätze stattfindet. Der Versuch, mittels Anwendung eines Satztokenizers die Trennung automatisiert vorzunehmen, lieferte keine brauchbaren Ergebnisse. Der Hauptgrund dafür ist vermutlich, dass die Datenquelle dieses Korpus eine OCR-basierte Digitalisierung von Zeitungsartikeln ist, die keine ausreichende Qualität bietet. Die Problematik der Satztzrennung wird von Neudecker ebenfalls beklagt.
 
 \begin{table}[!htbp]
 	\centering
@@ -60,7 +60,7 @@ Mit Europeana Newspapers \parencite{europeana} wäre zwar ein weiteres Korpus ve
 	\label{tab:korpora}
 	\begin{tabular}{@{}lllll@{}}
 		\toprule
-		\textbf{Korpus}   & \textbf{Sätze} & \textbf{Tokens}       & \textbf{Nested} & \textbf{Entity-Klassen} \\ \midrule
+		\textbf{Korpus}   & \textbf{Sätze} & \textbf{Tokens}       & \textbf{Nested} & \textbf{Entityklassen} \\ \midrule
 		GermEval2014    & 31,000         & \textgreater{}590,000 & Ja              & 4                       \\
 		WikiANN         & 40,000         & \textgreater{}390,000 & Nein            & 3                       \\
 		MultiNERD\footnotemark       & 156,800        & 2,700,000             & Nein            & 15                      \\ \bottomrule
@@ -71,21 +71,17 @@ Mit Europeana Newspapers \parencite{europeana} wäre zwar ein weiteres Korpus ve
 %% ==============================
 \section{Deutsches BERT-Modell}
 %% ==============================
-\label{ch:MRC:sec:DeutschBERT}
+\label{ch:Training:sec:DeutschBERT}
 
-Während meine früheren Arbeiten auf \verb|bert-german-base-cased| \parencite{bert-base-german-cased} basierten, fiel in dieser Arbeit die Entscheidung für das modernere \verb|gbert-base|, das von \cite{gbert} mit einer deutlich besseren Performance beworben wird. Letztenendes wurde diese Entscheidung aus rein pragmatischen Gründen getroffen, da bereits zu Beginn absehbar war, dass in dieser Arbeit lediglich ein Modell getestet werden kann. Gleichzeitig ist die Wahl des Basismodells nur eine der vielen Stellschrauben, die Einfluss auf die Performance des Frameworks haben. Einige dieser Stellschrauben werden im Folgenden an gegebener Stelle aufgezeigt, sowie in \autoref{ch:Ausblick} überblicksartig zusammengefasst.
+Während meine früheren Arbeiten auf \verb|bert-base-german-cased| \parencite{bert-base-german-cased} basierten, fiel in dieser Arbeit die Entscheidung für das modernere \verb|gbert-base|, das von \cite{gbert} mit einer deutlich besseren Performance beworben wird. Letztenendes wurde diese Entscheidung aus rein pragmatischen Gründen getroffen, da bereits zu Beginn absehbar war, dass in dieser Arbeit lediglich ein Modell getestet werden kann. Gleichzeitig ist die Wahl des Basismodells nur eine der vielen Stellschrauben, die Einfluss auf die Performance des Frameworks haben. Einige dieser Stellschrauben werden im Folgenden an gegebener Stelle aufgezeigt, sowie in \autoref{ch:Ausblick} überblicksartig zusammengefasst.
 
-%% ==============================
-\chapter{Training}
-\label{ch:Training}
-%% ==============================
 
 %% ==============================
 \section{Debugging}
 %% ==============================
 \label{ch:Training:sec:Debugging}
 
-Im Repository der Autoren befinden sich Scripts, die eine Reproduktion der Ergebnisse aus \cite{li2019unified} ermöglichen sollen. Als Basis für die Anpassung an die deutschen Korpora wurde \verb|scripts/mrc_ner/reproduce/genia.sh| verwendet. Bevor eine angepasste Version dieses Scripts verwendet werden konnte, mussten jedoch zunächst diverse Versionskonflikte der installierten Python-Pakete behoben werden. Dieses Debugging war wie üblich ziemlich zeitaufwändig, da die produzierten Fehlermeldungen nicht immer einen offensichtlichen Hinweis auf das zugrundeliegende Problem lieferten. Die relevanten finalen Versionen der verwendeten Pakete sind in \autoref{lst:packages} aufgeführt. Überraschenderweise zeigen sich große Diskrepanzen zwischen den in dieser Weise ermittelten und den in \verb|requirements.txt| mitgelieferten erforderlichen Versionen.
+Im Repository der Autoren befinden sich Scripts, die eine Reproduktion der Ergebnisse aus \cite{li2019unified} ermöglichen sollen. Als Basis für die Anpassung an die deutschen Korpora wurde \verb|scripts/mrc_ner/reproduce/genia.sh| verwendet. Bevor eine angepasste Version dieses Scripts verwendet werden konnte, mussten jedoch zunächst diverse Versionskonflikte der installierten Python-Pakete behoben werden. Dieses Debugging war wie üblich sehr zeitaufwändig, da die produzierten Fehlermeldungen nicht immer einen offensichtlichen Hinweis auf das zugrundeliegende Problem lieferten. Die relevanten finalen Versionen der verwendeten Pakete sind in \autoref{lst:packages} aufgeführt. Überraschenderweise zeigten sich große Diskrepanzen zwischen den auf diese Weise ermittelten Versionen und denen, die im mitgelieferten \verb|requirements.txt| gelistet sind.
 
 \begin{lstlisting}[caption={Liste der verwendeten Pakete}, language={Python}, label={lst:packages}]
 lightning-utilities==0.9.0
@@ -101,9 +97,9 @@ transformers==4.32.0
 
 Nachdem Konflikte in der Python-Installation bereinigt waren, wurden die in \autoref{ch:MRC:sec:Datenaufbereitung} erläuterten Probleme der Datenformate offenbart. Im Zuge dessen musste das Konversionsscript \verb|conll2json.py| entwickelt werden. Aus den so erhaltenen JSON-Daten wurde mit \verb|ner2mrc/genia2mrc.py| anschließend das benötigte MRC-Format generiert, das letztendlich die Eingabe für das Training darstellt.
 
-Ein weiterer Faktor, der in \autoref{ch:MRC} bereits angedeutet wurde, sind die erforderlichen Formulierungen der Fragen bzw. Queries, anhand derer das Modell Antworten finden soll. Während die einfachste Methode darin besteht, ein einzelnes Wort als Query zu verwenden, kann ebenfalls kurze Umschreibung oder gar eine voll ausformulierte Frage zur Entity-Klasse genutzt werden. Weitere Untersuchungen zu diesem Aspekt finden sich bei \cite[7]{li2019unified}.
+Ein weiterer Faktor, der in \autoref{ch:MRC} bereits angedeutet wurde, sind die erforderlichen Formulierungen der Fragen bzw. Queries, anhand derer das Modell Antworten finden soll. Während die einfachste Methode darin besteht, ein einzelnes Wort als Query zu verwenden, kann ebenfalls kurze Umschreibung oder gar eine voll ausformulierte Frage zur Entityklasse genutzt werden. Weitere Untersuchungen zu diesem Aspekt finden sich bei \cite{li2019unified}.
 
-Ein erster Versuch, eine mitgelieferte Query-Definition der Autoren unverändert zu übernehmen, ließ das Training zwar erfolgreich abschließen. In der Evaluation wurde jedoch ein enttäuschender F1-Score von ca. 0.51 erreicht. Dies ist auf mangelndes Verständnis des Frameworks zurückzuführen, da beim zweiten Blick offensichtlich wurde, dass die Queries auf Chinesisch formuliert waren.
+Ein erster Versuch, eine mitgelieferte Query-Definition der Autoren unverändert zu übernehmen, ließ das Training zwar erfolgreich abschließen. In der Evaluation wurde jedoch ein enttäuschender F1-Score von ca. 0.51 erreicht. Dies ist auf mangelndes Verständnis des Frameworks zurückzuführen, da beim zweiten Blick klar wurde, dass die unreflektiert übernommenen Queries auf Chinesisch formuliert waren und somit für ein deutsches Modell natürlich nicht nutzbar.
 
 Ein weiteres Problem zeigte sich beim Versuch, das Modell für MultiNERD zu trainieren. Aufgrund der schieren Größe der Datenmenge (s. \autoref{tab:korpora}) war es nicht machbar, eine Konfiguration der Hyperparameter zu finden, die ein Training auf einer GPU in vertretbarer Zeit ermöglichte. Da die mitgelieferten Reproduktionsscripts ebenfalls Konfigurationen für ein Multi-GPU Setup enthielten, wurde zunächst versucht, diese entsprechend zu übernehmen. Es zeigten sich aber zu große Unterschiede zwischen den Serverarchitekturen der Autoren und dem mir zur Verfügung stehenden Server. Daher wurde der Versuch aufgegeben, das gesamte MultiNERD Korpus zu verwenden. Stattdessen wurde die Größe des Korpus auf \(\frac{1}{6}\) (ca. 26133 Sätze) reduziert, was ein Training auf einer GPU ermöglichte.
 
@@ -143,13 +139,13 @@ Nach dem erfolgten Training für alle drei Korpora stellte sich die Frage, ob ei
 %% ==============================
 \label{ch:Evaluation:sec:Übersicht_der_Trainingsergebnisse}
 
-Es folgen in \autoref{tab:evaluation} die Ergebnisse der Evaluation des MRC-Frameworks. Insgesamt sind die Ergebnisse vergleichbar mit den englischsprachigen Korpora von \cite[6]{li2019unified}. Speziell die mit MultiNERD erreichten Scores übertreffen diese teilweise sogar deutlich. Auch wenn die Performance auf GermEval2014 ungefähr 6\%\textendash8\% schlechter abschneidet, sind die Ergebnisse wesentlich besser als die ursprünglichen Systeme der GermEval Konferenz \parencite[6]{germeval2014}. Außerdem sind sie vergleichbar mit moderneren Modellen wie \cite[3,4]{riedl-pado-shootout}, die auf diesem Korpus trainiert wurden. Für das deutsche WikiANN gibt es kaum Vergleichswerte, jedoch wird von \cite{Schiesser_2023} ein etwas besserer F1-Score von 0.8892 berichtet.
+Es folgen in \autoref{tab:evaluation} die Ergebnisse der Evaluation des MRC Frameworks. Insgesamt sind die Ergebnisse vergleichbar mit denen englischsprachiger Korpora von \cite{li2019unified}. Speziell die mit MultiNERD erreichten Scores übertreffen diese teilweise sogar deutlich. Auch wenn die Performance auf GermEval2014 ungefähr 6\%\textendash8\% schlechter abschneidet, sind die Ergebnisse wesentlich besser als die ursprünglichen Systeme der GermEval Konferenz \parencite{germeval2014}. Außerdem sind sie vergleichbar mit moderneren Modellen wie \cite{riedl-pado-shootout}, die auf diesem Korpus trainiert wurden. Für das deutsche WikiANN gibt es kaum Vergleichswerte, jedoch wird von \cite{Schiesser_2023} ein etwas besserer F1-Score von 0.8892 berichtet.
 
-Die Evaluation fand mit den zur Verfügung stehenden Skripten der Autoren statt. Metriken werden als Span-level micro-average berichtet \parencite[5,6]{li2019unified}.
+Die Evaluation fand mit den zur Verfügung stehenden Skripten der Autoren statt. Metriken werden gemäß \cite{li2019unified} als span-level micro-average berichtet.
 
 \begin{table}[!htbp]
 	\centering
-	\caption{Evaluation des MRC-Frameworks}
+	\caption{Evaluation des MRC Frameworks}
 	\label{tab:evaluation}
 	\resizebox{\columnwidth}{!}{
 		\begin{tabular}{@{}l|ccc|ccc|c@{}}
