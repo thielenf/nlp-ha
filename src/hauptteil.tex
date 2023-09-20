@@ -165,6 +165,12 @@ Es folgen in \autoref{tab:evaluation} die Ergebnisse der Evaluation des MRC-Fram
 %% ==============================
 \label{ch:Evaluation:sec:Interpretation_der_Trainingsergebnisse}
 
+Es gibt verschiedene Erklärungsansätze für die Beobachtung, dass GermEval2014 deutlich schlechter abschneidet als die anderen Korpora. Einerseits ist GermEval2014 der einzige Datensatz des NNER-Tasks, was möglicherweise dazu führt, dass die Evaluation bspw. das Nichterkennen einer inneren Entity bestraft, obwohl die äußere Entity korrekt erkannt wurde. Diese Schwierigkeit fällt bei reiner NER nicht ins Gewicht. Zudem ist GermEval2014 auch das deutlich kleinste Korpus (vgl. \autoref{tab:korpora}), wodurch möglicherweise kein ausreichendes Training möglich war. Außerdem war es, wie in \autoref{ch:Training:sec:Anpassung_Queries} beschrieben, das erste Korpus, auf dem trainiert wurde, und hatte lediglich Ein-Wort-Queries als Basis. Es ist mit Sicherheit davon auszugehen, dass dieser Faktor die Performance entscheidend reduziert hat.
+
+WikiANN und MultiNERD sind maschinell generierte silver-standard Korpora. Das führt zu einer großen Menge an Trainingsdaten, die jedoch nicht immer von hoher Qualität sind. Demzufolge ist die Qualität eines trainierten Modells nicht notwendigerweise besonders gut, obwohl die Evaluation dieses Modells positiv ausfällt.
+
+Infolgedessen sind die Ergebnisse in dieser Form nur eingeschränkt vergleichbar. Um ein tatsächlich faires Bild der Performance des MRC\--Frame-work-s zu erhalten, sollten weitere Experimente durchgeführt werden. Mögliche Faktoren, die dabei berücksichtigt werden könnten, werden in \autoref{ch:Ausblick} aufgeführt.
+
 %% ==============================
 \chapter{Ausblick}
 %% ==============================
