@@ -169,19 +169,19 @@ Es gibt verschiedene Erklärungsansätze für die Beobachtung, dass GermEval2014
 
 WikiANN und MultiNERD sind maschinell generierte silver-standard Korpora. Das führt zu einer großen Menge an Trainingsdaten, die jedoch nicht immer von hoher Qualität sind. Demzufolge ist die Qualität eines trainierten Modells nicht notwendigerweise besonders gut, obwohl die Evaluation dieses Modells positiv ausfällt.
 
-Infolgedessen sind die Ergebnisse in dieser Form nur eingeschränkt vergleichbar. Um ein tatsächlich faires Bild der Performance des MRC\--Frame-work-s zu erhalten, sollten weitere Experimente durchgeführt werden. Mögliche Faktoren, die dabei berücksichtigt werden könnten, werden in \autoref{ch:Ausblick} aufgeführt.
+Infolgedessen sind die Ergebnisse in dieser Form nur eingeschränkt vergleichbar. Um ein tatsächlich faires Bild der Performance des MRC Frameworks zu erhalten, sollten weitere Experimente durchgeführt werden. Mögliche Faktoren, die dabei berücksichtigt werden könnten, werden in \autoref{ch:Ausblick} aufgeführt.
 
 %% ==============================
 \chapter{Ausblick}
 %% ==============================
 \label{ch:Ausblick}
 
-Trotz der aufschlussreichen Ergebnisse bezüglich der Performance des MRC\--Frame\-work\-s auf deutschen Korpora gibt es an vielen Stellen Bedarf für weitere Untersuchungen. Im Rahmen dieser Arbeit war vor allem angesichts der hohen Trainingsdauer nicht möglich, auf alle denkbaren Konfigurationen einzugehen. Im Folgenden werden einige Aspekte aufgeführt werden, von denen zu erwarten ist, dass sie großen Einfluss auf die Performance des Frameworks haben.
+Trotz der aufschlussreichen Ergebnisse bezüglich der Performance des MRC Frameworks auf deutschen Korpora gibt es an vielen Stellen Bedarf für weitere Untersuchungen. Im Rahmen dieser Arbeit war vor allem angesichts der hohen Trainingsdauer nicht möglich, auf alle denkbaren Konfigurationen einzugehen. Im Folgenden werden einige Aspekte aufgeführt werden, von denen zu erwarten ist, dass sie großen Einfluss auf die Performance des Frameworks haben.
 
 \begin{itemize}
 	\item \textbf{Hyperparameter:} Die Anzahl der Epochen, die Batch-Size und die Lernrate sind offensichtliche Hyperparameter, mit denen experimentiert werden könnte. Mögliche Versuche sind allerdings direkt gebunden an die verfügbaren Ressourcen.
 	\item \textbf{Queries:} Wie in \autoref{ch:Training:sec:Anpassung_Queries} beschrieben, ist die Formulierung der Queries ein entscheidender Faktor, der von \cite{li2019unified} genauer beleuchtet wurde. Allerdings wurde nicht im Speziellen die deutsche Sprache diskutiert. Obwohl zu vermuten ist, dass sich die Beobachtungen der Autoren auch auf das Deutsche übertragen lassen, bleibt dies zu überprüfen.
 	\item \textbf{Korpora:} Da die in dieser Arbeit gewählten Korpora lediglich eine kleine Auswahl der verfügbaren Daten darstellen, ist es naheliegend, die Untersuchungen auf weitere Korpora auszubreiten, sowie eine technische Konfiguration zu erreichen, in der ein Training mit dem vollständigen MultiNERD Korpus möglich ist.
-	\item \textbf{BERT-Modell:} Das verwendete Modell \verb|gbert-base| wirkt zwar vielversprechend, trotzdem ist es denkbar, dass andere Modelle, die bspw. auf BERT\textsubscript{LARGE} oder RoBERTa basieren, bessere Ergebnisse liefern. Eine andere Modellarchitektur, die überhaupt nicht auf BERT basiert, ist zwar theoretisch denkbar. Da jedoch das gesamte MRC\--Frame\-work auf die BERT-Architektur ausgelegt ist, wäre dies nicht ohne erheblichen Aufwand umsetzbar.
+	\item \textbf{BERT-Modell:} Das verwendete Modell \verb|gbert-base| wirkt zwar vielversprechend, trotzdem ist es denkbar, dass andere Modelle, die bspw. auf BERT\textsubscript{LARGE} oder RoBERTa basieren, bessere Ergebnisse liefern. Eine andere Modellarchitektur, die überhaupt nicht auf BERT basiert, ist zwar theoretisch denkbar. Da jedoch das gesamte MRC Framework auf die BERT-Architektur ausgelegt ist, wäre dies nicht ohne erheblichen Aufwand umsetzbar.
 \end{itemize}
 
