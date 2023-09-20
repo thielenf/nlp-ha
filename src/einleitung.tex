@@ -9,39 +9,8 @@ Die Eigennamenerkennung (Named Entity Recognition, im Folgenden NER) ist eine tr
 
 Eine Unteraufgabe der NER ist das Erkennen von verschachtelten Eigennamen (Nested Named Entity Recognition, im Folgenden NNER), also Eigennamen der Form \emph{Universität Trier}, wobei die innere Entität \emph{Trier} gesondert von der äußeren Entität \emph{Universität Trier} ausgezeichnet werden soll. Obwohl verschachtelte Eigennamen sprach- und domänenabhängig einen erheblichen Anteil der Gesamtheit ausmachen können, wird dieser Aufgabe in der Forschung nicht immer eine ebenso erhebliche Bedeutung zugesprochen.
 
-Anstatt die beiden Aufgaben getrennt zu betrachten, haben \cite{li2019unified} ein einheitliches Framework entwickelt, das für beide Tasks gleichermaßen geeignet sein soll. Da die Ergebnisse vielversprechend sind, aber noch nicht auf deutschen Korpora getestet wurden, wird dies im Rahmen dieser Arbeit nachgeholt.
+Historisch wurden verschiedene Methoden angewendet, um diese Aufgaben zu lösen. In der modernen Computerlinguistik werden vielerorts neuronale Netze eingesetzt, da sie in vielen Bereichen der Computerlinguistik zu den besten Ergebnissen führen. Eines der meistverwendeten Sprachmodelle, das auch für (N)NER Anwendung findet, ist BERT \parencite{devlin2019bert}.
 
-
-% %% ==============================
-% \section{Abschnitt 1}
-% %% ==============================
-% \label{ch:Einleitung:sec:Abschnitt1}
-
-% Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod
-% tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.
-% \cite{TB98}. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita
-% kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet
-% \cite{techrep1}.
-
-% %% ==============================
-% \section{Abschnitt 2}
-% %% ==============================
-% \label{ch:Einleitung:sec:Abschnitt2}
-
-% Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod
-% tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At
-% vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren,
-% no sea takimata sanctus \cite{JSAC96} est Lorem ipsum dolor sit amet.
-
-% %% ==============================
-% \section{Abschnitt 3}
-% %% ==============================
-% \label{ch:Einleitung:sec:Abschnitt3}
-
-% Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod
-% tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua
-% \cite{beethoven}. At vero eos et accusam et justo duo dolores et ea rebum. Stet
-% clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
-
+In \cite{li2019unified} wurde ein einheitliches Framework auf Basis von BERT entwickelt, das für beide Tasks gleichermaßen geeignet sein soll. Da die Ergebnisse vielversprechend sind, aber noch nicht mit deutschen Korpora getestet wurden, wird dies im Rahmen dieser Arbeit nachgeholt. Das Ziel ist, eine erste Einschätzung zu erhalten, ob sich die Ergebnisse von \Citeauthor{li2019unified} auch auf deutsche Korpora übertragen lassen.
 
 % %%% End:
