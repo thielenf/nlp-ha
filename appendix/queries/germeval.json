@@ -1,0 +1,6 @@
+{
+    "PER": "Person",
+    "LOC": "Ortsname",
+    "ORG": "Organisation",
+    "OTH": "Andere Entität"
+}

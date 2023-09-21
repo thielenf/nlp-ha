@@ -1,0 +1,17 @@
+{
+    "PER": "Personen.",
+    "ORG": "Vereinigungen, Unternehmen, Agenturen, Institutionen, Nationalitäten und religiöse oder politische Gruppen.",
+    "LOC": "Physische Orte (z. B. Berge, Gewässer), geopolitische Einheiten (z. B. Städte, Staaten) und Einrichtungen (z. B. Brücken, Gebäude, Flughäfen).",
+    "ANIM": "Rassen von Hunden, Katzen und anderen Tieren, einschließlich ihrer wissenschaftlichen Namen.",
+    "BIO": "Gattungen von Pilzen, Bakterien und Protoctisten, Familien von Viren und andere biologische Einheiten.",
+    "CEL": "Planeten, Sterne, Asteroiden, Kometen, Nebel, Galaxien und andere astronomische Objekte.",
+    "DIS": "Körperliche, geistige, infektiöse, nicht-infektiöse, Mangel-, Erb-, degenerative, soziale und selbstverschuldete Krankheiten.",
+    "EVE": "Sportveranstaltungen, Schlachten, Kriege und andere Ereignisse.",
+    "FOOD": "Speisen und Getränke.",
+    "INST": "Technological instruments, mechanical instruments, musical instruments, and other tools.",
+    "MEDIA": "Titel von Filmen, Büchern, Zeitschriften, Liedern und Alben, fiktive Figuren und Sprachen.",
+    "PLANT": "Arten von Bäumen, Blumen und anderen Pflanzen, einschließlich ihrer wissenschaftlichen Namen.",
+    "MYTH": "Mythologische und religiöse Wesenheiten.",
+    "TIME": "Spezifische und genau definierte Zeitintervalle, wie Epochen, historische Zeiträume, Jahrhunderte, Jahre und wichtige Tage. Keine Monate und Wochentage.",
+    "VEHI": "Autos, Motorräder und andere Fahrzeuge."
+}

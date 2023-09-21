@@ -1,0 +1,10 @@
+lightning-utilities==0.9.0
+numpy==1.23.5
+protobuf==3.20.0
+pytorch-lightning==0.9.0
+tokenizers==0.13.3
+torch==2.0.1
+torchmetrics==1.1.0
+tqdm==4.66.1
+transformers==4.32.0
+accelerate

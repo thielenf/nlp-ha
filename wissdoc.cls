@@ -102,6 +102,7 @@
 % \usepackage{tabularx} % automatische Spaltenbreite
 % \usepackage{supertab} % mehrseitige Tabellen
 \usepackage{pdfpages}
+\usepackage{dirtree}
 %% ---------------- end of usepackages -------------
 
 %% Options
