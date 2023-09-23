@@ -18,8 +18,7 @@
 \NeedsTeXFormat{LaTeX2e}[1995/12/01] % Sorry, wir brauchen LaTeX2e!
 \ProvidesClass{wissdoc}[2012/05/10 Roland Bless - Wissenschaftliches Dokument]
 \LoadClass[a4paper,12pt,oneside]{book} % diese Klasse basiert auf ``book''
-\usepackage[T1]{fontenc}      % T1-encoded fonts: auch Wörter mit Umlauten trennen
-\usepackage[utf8]{inputenc}   % Eingabe nach UTF-8
+
 \usepackage[ngerman]{babel}
 %\usepackage{ae}               % almost european, virtueller T1-Font
 \usepackage[final]{graphicx}  % um Graphiken einzubinden
