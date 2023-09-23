@@ -1,7 +1,7 @@
 %% hauptteil.tex
 
 
-\chapter{A Unified MRC Framework for NER}
+\chapter{\citetitle{li2019unified}}
 \label{ch:MRC}
 %% ==============================
 
@@ -22,7 +22,7 @@ Um die gleichzeitige Anwendung für NER und NNER zu realisieren, werden zwei bin
 
 Oft liegen Trainingsdaten für NER-Anwendungen im BIO-Format oder im CoNLL-Format vor. Für die Zwecke des MRC Frameworks entschieden sich \Citeauthor{li2019unified} für ein Zwischenformat, das ein Tupel aus \textsc{(Frage, Antwort, Kontext)} abbildet. Aus diesem Zwischenformat haben die Autoren mittels eines Konversionsscripts die Eingabedaten für ihre angepassten BERT-Datasets erstellt.
 
-Bedauerlicherweise wird das besagte Zwischenformat zwar abstrakt beschrieben, die tatsächliche Implementierung jedoch nicht erklärt. So war es erforderlich, aus dem vorliegenden Quellcode die Funktionsweise zu rekonstruieren und ein zusätzliches Konversionsscript zu programmieren, das aus den deutschen Korpora das benötigte Format herstellt. Das so erzeugte Datenformat ist dargestellt in \autoref{lst:jsonexample}. Jeder Satz wird mittels der Schlüssel \verb|"context"| und \verb|"label"| codiert. Dabei enthält \verb|"context"| den Inhalt des vollständigen Satzes als Whitespace-Verkettung aller Tokens der Eingabedatei. \verb|"label"| enthält als Objekt alle vorhandenen Klassen der Named Entities als Schlüssel. Die Werte dieser Schlüssel sind Listen aus \verb|"<start>;<end>"| Strings, die den Indizes der entsprechenden Vorkommnisse innerhalb des \verb|"context"| entsprechen.
+Bedauerlicherweise wird das besagte Zwischenformat zwar abstrakt beschrieben, die tatsächliche Implementierung jedoch nicht erklärt. So war es erforderlich, aus dem vorliegenden Quellcode\footnote{\url{https://github.com/ShannonAI/mrc-for-flat-nested-ner/}} die Funktionsweise zu rekonstruieren und ein zusätzliches Konversionsscript zu programmieren, das aus den deutschen Korpora das benötigte Format herstellt (\hyperref[app:conll2json]{Anhang \texttt{scripts/conll2json.py}}). Das so erzeugte Datenformat ist dargestellt in \autoref{lst:jsonexample}. Jeder Satz wird mittels der Schlüssel \verb|"context"| und \verb|"label"| codiert. Dabei enthält \verb|"context"| den Inhalt des vollständigen Satzes als Whitespace-Verkettung aller Tokens der Eingabedatei. \verb|"label"| enthält als Objekt alle vorhandenen Klassen der Named Entities als Schlüssel. Die Werte dieser Schlüssel sind Listen aus \verb|"<start>;<end>"| Strings, die den Indizes der entsprechenden Vorkommnisse innerhalb des \verb|"context"| entsprechen.
 
 \begin{lstlisting}[caption={Beispiel aus GermEval2014 für das erforderliche JSON-Format}, language={Python}, label={lst:jsonexample}]
 	{
@@ -38,7 +38,7 @@ Bedauerlicherweise wird das besagte Zwischenformat zwar abstrakt beschrieben, di
 	}
 \end{lstlisting}
 
-Aus den vorhandenen Quelldateien war nicht ersichtlich, ob und wie dieses Format unter Berücksichtigung von NNER angepasst werden muss. Aus diesem Grund wurde die Annahme getroffen, dass eine Verschachtelung wie in \autoref{lst:jsonexample} über die naive Angabe der Indizes bereits ausreichend ist.
+Aus den Quelldateien der Autoren war nicht ersichtlich, ob und wie dieses Format unter Berücksichtigung von NNER angepasst werden musste. Aus diesem Grund wurde die Annahme getroffen, dass eine Verschachtelung wie in \autoref{lst:jsonexample} über die naive Angabe der Indizes bereits ausreichend ist.
 
 %% ==============================
 \chapter{Training für deutsche Korpora}
@@ -81,21 +81,9 @@ Während meine früheren Arbeiten auf \verb|bert-base-german-cased| \parencite{b
 %% ==============================
 \label{ch:Training:sec:Debugging}
 
-Im Repository der Autoren befinden sich Scripts, die eine Reproduktion der Ergebnisse aus \cite{li2019unified} ermöglichen sollen. Als Basis für die Anpassung an die deutschen Korpora wurde \verb|scripts/mrc_ner/reproduce/genia.sh| verwendet. Bevor eine angepasste Version dieses Scripts verwendet werden konnte, mussten jedoch zunächst diverse Versionskonflikte der installierten Python-Pakete behoben werden. Dieses Debugging war wie üblich sehr zeitaufwändig, da die produzierten Fehlermeldungen nicht immer einen offensichtlichen Hinweis auf das zugrundeliegende Problem lieferten. Die relevanten finalen Versionen der verwendeten Pakete sind in \autoref{lst:packages} aufgeführt. Überraschenderweise zeigten sich große Diskrepanzen zwischen den auf diese Weise ermittelten Versionen und denen, die im mitgelieferten \verb|requirements.txt| gelistet sind.
+Im Repository der Autoren befinden sich Scripts, die eine Reproduktion der Ergebnisse aus \cite{li2019unified} ermöglichen sollen. Als Basis für die Anpassung an die deutschen Korpora wurde \verb|scripts/mrc_ner/reproduce/genia.sh| verwendet. Bevor eine angepasste Version dieses Scripts verwendet werden konnte, mussten jedoch zunächst diverse Versionskonflikte der installierten Python-Pakete behoben werden. Dieses Debugging war wie üblich sehr zeitaufwändig, da die produzierten Fehlermeldungen nicht immer einen offensichtlichen Hinweis auf das zugrundeliegende Problem lieferten. Die relevanten finalen Versionen der verwendeten Pakete sind im \hyperref[app:versions]{Anhang \texttt{versions.txt}} aufgeführt. Überraschenderweise zeigten sich große Diskrepanzen zwischen den auf diese Weise ermittelten Versionen und denen, die im mitgelieferten \verb|requirements.txt| gelistet sind.
 
-\begin{lstlisting}[caption={Liste der verwendeten Pakete}, language={Python}, label={lst:packages}]
-lightning-utilities==0.9.0
-numpy==1.23.5
-protobuf==3.20.0
-pytorch-lightning==0.9.0
-tokenizers==0.13.3
-torch==2.0.1
-torchmetrics==1.1.0
-tqdm==4.66.1
-transformers==4.32.0
-\end{lstlisting}
-
-Nachdem Konflikte in der Python-Installation bereinigt waren, wurden die in \autoref{ch:MRC:sec:Datenaufbereitung} erläuterten Probleme der Datenformate offenbart. Im Zuge dessen musste das Konversionsscript \verb|conll2json.py| entwickelt werden. Aus den so erhaltenen JSON-Daten wurde mit \verb|ner2mrc/genia2mrc.py| anschließend das benötigte MRC-Format generiert, das letztendlich die Eingabe für das Training darstellt.
+Nachdem Konflikte in der Python-Installation bereinigt waren, wurden die in \autoref{ch:MRC:sec:Datenaufbereitung} erläuterten Probleme der Datenformate offenbart. Im Zuge dessen musste ein Konversionsscript entwickelt werden (\hyperref[app:conll2json]{Anhang \texttt{scripts/conll2json.py}}). Aus den so erhaltenen JSON-Daten wurde mit \verb|ner2mrc/genia2mrc.py| anschließend das benötigte MRC-Format generiert, das letztendlich die Eingabe für das Training darstellt.
 
 Ein weiterer Faktor, der in \autoref{ch:MRC} bereits angedeutet wurde, sind die erforderlichen Formulierungen der Fragen bzw. Queries, anhand derer das Modell Antworten finden soll. Während die einfachste Methode darin besteht, ein einzelnes Wort als Query zu verwenden, kann ebenfalls kurze Umschreibung oder gar eine voll ausformulierte Frage zur Entityklasse genutzt werden. Weitere Untersuchungen zu diesem Aspekt finden sich bei \cite{li2019unified}.
 
@@ -103,7 +91,7 @@ Ein erster Versuch, eine mitgelieferte Query-Definition der Autoren unverändert
 
 Ein weiteres Problem zeigte sich beim Versuch, das Modell für MultiNERD zu trainieren. Aufgrund der schieren Größe der Datenmenge (s. \autoref{tab:korpora}) war es nicht machbar, eine Konfiguration der Hyperparameter zu finden, die ein Training auf einer GPU in vertretbarer Zeit ermöglichte. Da die mitgelieferten Reproduktionsscripts ebenfalls Konfigurationen für ein Multi-GPU Setup enthielten, wurde zunächst versucht, diese entsprechend zu übernehmen. Es zeigten sich aber zu große Unterschiede zwischen den Serverarchitekturen der Autoren und dem mir zur Verfügung stehenden Server. Daher wurde der Versuch aufgegeben, das gesamte MultiNERD Korpus zu verwenden. Stattdessen wurde die Größe des Korpus auf \(\frac{1}{6}\) (ca. 26133 Sätze) reduziert, was ein Training auf einer GPU ermöglichte.
 
-Alle finalen Trainings- und Evaluationsscripts können im Anhang eingesehen werden und heißen \verb|germeval_train.sh| bzw. \verb|germeval_eval.sh| und analog für die anderen Korpora.
+Alle finalen Trainings- und Evaluationsscripts können im Anhang eingesehen werden (\hyperref[app:train]{Anhang \texttt{train/}} und \hyperref[app:evaluate]{Anhang \texttt{evaluate/}}).
 
 
 %% ==============================
@@ -116,18 +104,8 @@ Da GermEval2014 der erste für dieses Experiment verwendete Datensatz war, wurde
 
 Nach dem erfolgten Training für alle drei Korpora stellte sich die Frage, ob ein erneuter Trainingsdurchlauf mit angepassten Queries für GermEval2014 in Betracht gezogen werden sollte. Die Erfahrung zeigte nun, dass die längeren Queries erheblichen Einfluss auf den Ressourcenbedarf des Trainings haben: Das Training mit vollständigen Definitionen erfordert ca. 50\% mehr Zeit und VRAM als das Training mit Ein-Wort-Queries. In Anbetracht der ohnehin erheblichen Trainingsdauer (vgl. \autoref{tab:evaluation}) wurde daher im Rahmen dieser Arbeit kein weiteres Training mit angepassten Queries durchgeführt.
 
-% \begin{table}[!htbp]
-% 	\centering
-% 	\caption{Art der Queries für die Korpora}
-% 	\label{tab:queries}
-% 	\begin{tabular}{@{}ll@{}}
-% 	\toprule
-% 		\textbf{Korpus} & \textbf{Query Defintionen} \\ \midrule
-% 		GermEval2014    & Ein-Wort-Query             \\
-% 		WikiANN         & Übersetzte Definitionen aus MultiNERD \\
-% 		MultiNERD       & Übersetzte Definitionen aus MultiNERD \\ \bottomrule
-% 	\end{tabular}
-% \end{table}
+Die finalen Queries können im Anhang eingesehen werden (\hyperref[app:queries]{Anhang \texttt{queries/}}).
+
 
 %% ==============================
 \chapter{Evaluation}
@@ -141,7 +119,7 @@ Nach dem erfolgten Training für alle drei Korpora stellte sich die Frage, ob ei
 
 Es folgen in \autoref{tab:evaluation} die Ergebnisse der Evaluation des MRC Frameworks. Insgesamt sind die Ergebnisse vergleichbar mit denen englischsprachiger Korpora von \Citeauthor{li2019unified}. Speziell die mit MultiNERD erreichten Scores übertreffen diese teilweise sogar deutlich. Auch wenn die Performance auf GermEval2014 ungefähr 6\%\textendash8\% schlechter abschneidet, sind die Ergebnisse wesentlich besser als die ursprünglichen Systeme der GermEval Konferenz \parencite{germeval2014}. Außerdem sind sie vergleichbar mit moderneren Modellen wie \cite{riedl-pado-shootout}, die auf diesem Korpus trainiert wurden. Für das deutsche WikiANN gibt es kaum Vergleichswerte, jedoch wird von \cite{Schiesser_2023} ein etwas besserer F1-Score von 0.8892 berichtet.
 
-Die Evaluation fand mit den zur Verfügung stehenden Skripten der Autoren statt. Metriken werden gemäß \cite{li2019unified} als span-level micro-average berichtet.
+Die Evaluation fand mit angepassten Skripten der Autoren statt (\hyperref[app:evaluate]{Anhang \texttt{evaluate/}}). Metriken werden gemäß \cite{li2019unified} als span-level micro-average berichtet.
 
 \begin{table}[!htbp]
 	\centering
@@ -167,7 +145,7 @@ Die Evaluation fand mit den zur Verfügung stehenden Skripten der Autoren statt.
 
 Es gibt verschiedene Erklärungsansätze für die Beobachtung, dass GermEval2014 deutlich schlechter abschneidet als die anderen Korpora. Einerseits ist es der einzige Datensatz des NNER-Tasks. Wegen der höheren Komplexität dieser Aufgabe sind die Ergebnisse grundsätzlich als Sonderfall zu betrachten. Zudem ist GermEval2014 auch das kleinste Korpus (vgl. \autoref{tab:korpora}), wodurch möglicherweise kein ausreichendes Training möglich war. Darüber hinaus war es, wie in \autoref{ch:Training:sec:Anpassung_Queries} beschrieben, das erste Korpus, auf dem trainiert wurde, und hatte lediglich Ein-Wort-Queries als Basis. Es ist mit Sicherheit davon auszugehen, dass dieser Faktor die Performance entscheidend reduziert hat.
 
-WikiANN und MultiNERD sind maschinell generierte silver-standard Korpora. Das führt zu einer großen Menge an Trainingsdaten, die jedoch nicht immer von hoher Qualität sind. Demzufolge ist die Qualität eines trainierten Modells nicht notwendigerweise besonders gut, obwohl die Evaluation dieses Modells positiv ausfällt.
+WikiANN und MultiNERD sind maschinell generierte Silver-Standard-Korpora. Das führt zu einer großen Menge an Trainingsdaten, die jedoch nicht immer von hoher Qualität sind. Demzufolge ist die Qualität eines trainierten Modells nicht notwendigerweise besonders gut, obwohl die Evaluation dieses Modells positiv ausfällt.
 
 Infolgedessen sind die Ergebnisse in dieser Form nur eingeschränkt vergleichbar. Um ein tatsächlich faires Bild der Performance des MRC Frameworks zu erhalten, sollten weitere Experimente durchgeführt werden. Mögliche Faktoren, die dabei berücksichtigt werden könnten, werden in \autoref{ch:Ausblick} aufgeführt.
 
