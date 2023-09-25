@@ -115,7 +115,7 @@
 \DeclareOption{relaxed}{\tolerance=1500 \emergencystretch=12pt}
 \DeclareOption{pdf}{\@usepdfttrue}
 %% Modifications
-\let\@draft\@undefined %no draft
+\let\@draft 1 % draft
 \newif\if@usepdf \@usepdffalse % not pdf ready
 \ProcessOptions
 
